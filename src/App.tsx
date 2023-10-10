@@ -13,8 +13,8 @@ function App() {
   const [resultlist, setResultlist] = useState<Array<SelectProp>>([]);
   const [loading, setLoading] = useState(false);
   const onSearch =  ( ) => { 
-    
-    setLoading(true)
+      try {
+        setLoading(true)
     setTimeout(async() => {
       const response=   await fetch('http://localhost:5001/kategoriler?search='+search);
       const  data=await response.json() as Array<string>;
@@ -30,6 +30,11 @@ function App() {
       setResultlist([...listStore,...cnvrtdata.filter(x=>!listStore?.find(t=>t.label===x.label))]);
       setLoading(false)
     }, 2000);
+      } catch (error) {
+        setResultlist([]);
+        setLoading(false)
+      }
+    
      
    }
 
